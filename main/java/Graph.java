@@ -45,7 +45,7 @@ public class Graph {
 		return totalDistance;
 	}
 
-	public int getDistanceByOneVertex(String from, String to) { //à modifier pour ne pas ajouter si c'est -1
+	public int getDistanceByOneVertex(String from, String to) {
 		ArrayList<Integer> distances = new ArrayList<Integer>();
 		int vertexFromIndex = findVertexIndex(from);
 		Vertex fromVertex = vertices.get(vertexFromIndex);
@@ -97,7 +97,7 @@ public class Graph {
 			ArrayList<Vertex> optimalBy = new ArrayList<Vertex>();
 			for (Vertex by : vertices) {
 				if (getDistance(by.getName(), to) != -1) {
-					int distanceFromBy = getDistanceByNVertices(from, by.getName(), intermediary-1);
+					int distanceFromBy = getDistanceByNVertices(from, by.getName(), intermediary - 1);
 					if (distanceFromBy != -1) {
 						optimalDistancesBy.add(distanceFromBy);
 						optimalBy.add(by);
@@ -113,5 +113,21 @@ public class Graph {
 			else
 				return Collections.min(totalDistances);
 		}
+	}
+
+
+	public int getOptimalDistance(String from, String to) {
+		ArrayList<Integer> optimalDistancesByN = new ArrayList<Integer>();
+		int distance = -1;
+		for (int n = 1; n <= this.vertices.size(); n++){
+			distance = getDistanceByNVertices(from, to, n);
+			if (distance != -1){
+				optimalDistancesByN.add(distance);
+			}
+		}
+		if (optimalDistancesByN.isEmpty())
+			return -1;
+		else
+			return Collections.min(optimalDistancesByN);
 	}
 }

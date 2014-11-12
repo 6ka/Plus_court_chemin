@@ -108,4 +108,11 @@ public class GraphTest {
 		Assert.assertEquals(graph.getDistanceByNVertices("Lille","Toulouse",3),1116);
 	}
 
+	@Test
+	public void getOptimalDistanceForTwoVertices(){
+		Graph graph = new Graph(lille,lyon,paris,reims,nancy,nantes,lemans,bordeaux,clermont,marseille,montpellier,toulouse);
+
+		Assert.assertEquals(graph.getOptimalDistance("Lille","Lyon"),687);
+	}
+
 }
