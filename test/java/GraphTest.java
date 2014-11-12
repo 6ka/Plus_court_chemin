@@ -103,8 +103,9 @@ public class GraphTest {
 	public void getDistanceForTwoVerticesByNVertices(){
 		Graph graph = new Graph(lille,lyon,paris,reims,nancy,nantes,lemans,bordeaux,clermont,marseille,montpellier,toulouse);
 
-		/*Assert.assertEquals(graph.getDistanceByNVertices("Lille","Lyon",1),687);
-		Assert.assertEquals(graph.getDistanceByNVertices("Lille","Marseille",2),1000);*/
+		Assert.assertEquals(graph.getDistanceByNVertices("Lille","Lyon",1),687);
+		Assert.assertEquals(graph.getDistanceByNVertices("Lille","Marseille",2),1000);
+		Assert.assertEquals(graph.getDistanceByNVertices("Lille","Toulouse",3),1116);
 	}
 
 }

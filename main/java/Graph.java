@@ -86,6 +86,32 @@ public class Graph {
 
 
 	public int getDistanceByNVertices(String from, String to, int intermediary) {
-		return 0;
+		if (intermediary == 0){
+			return getDistance(from,to);
+		}
+		else if (intermediary == 1){
+			return getDistanceByOneVertex(from,to);
+		}
+		else {
+			ArrayList<Integer> optimalDistancesBy = new ArrayList<Integer>();
+			ArrayList<Vertex> optimalBy = new ArrayList<Vertex>();
+			for (Vertex by : vertices) {
+				if (getDistance(by.getName(), to) != -1) {
+					int distanceFromBy = getDistanceByNVertices(from, by.getName(), intermediary-1);
+					if (distanceFromBy != -1) {
+						optimalDistancesBy.add(distanceFromBy);
+						optimalBy.add(by);
+					}
+				}
+			}
+			ArrayList<Integer> totalDistances = new ArrayList<Integer>();
+			for (int i = 0; i < optimalBy.size(); i++) {
+				totalDistances.add(optimalDistancesBy.get(i) + getDistance(optimalBy.get(i).getName(), to));
+			}
+			if (totalDistances.isEmpty())
+				return -1;
+			else
+				return Collections.min(totalDistances);
+		}
 	}
 }
