@@ -14,7 +14,7 @@ public class Graph {
 		Boolean trouve = false;
 		int compteur = 0;
 		while (!trouve && compteur < vertices.size()) {
-			if (vertices.get(compteur).getName() == name) {
+			if (vertices.get(compteur).getName().equals(name)) {
 				trouve = true;
 			}
 			compteur++;
@@ -28,7 +28,7 @@ public class Graph {
 		if (vertexFromIndex != vertices.size()) {
 			Vertex fromVertex = vertices.get(vertexFromIndex);
 			for (Edge edge : fromVertex.getEdges()) {
-				if (edge.getTarget().getName() == to) {
+				if (edge.getTarget().getName().equals(to)) {
 					distance = edge.getDistance();
 				}
 			}
@@ -51,21 +51,12 @@ public class Graph {
 		Vertex fromVertex = vertices.get(vertexFromIndex);
 		ArrayList<Vertex> possibleBy = new ArrayList<Vertex>();
 		for (Edge edge : fromVertex.getEdges()) {
-			possibleBy.add(edge.getTarget());
-		}
-		for (Vertex by : possibleBy) {
-			distances.add(getDistanceByVertex(from, to, by.getName()));
-		}
-		for (int i = possibleBy.size() - 1; i >= 0; i--) {
-			if (distances.get(i) == -1) {
-				distances.remove(i);
-				possibleBy.remove(i);
+			if (getDistanceByVertex(from, to, edge.getTarget().getName()) != -1) {
+				possibleBy.add(edge.getTarget());
+				distances.add(getDistanceByVertex(from, to, edge.getTarget().getName()));
 			}
 		}
-		while (distances.contains(-1)) {
-			distances.remove(-1);
-		}
-		if(distances.isEmpty())
+		if (distances.isEmpty())
 			return -1;
 		else
 			return Collections.min(distances);
@@ -84,10 +75,13 @@ public class Graph {
 			}
 		}
 		ArrayList<Integer> totalDistances = new ArrayList<Integer>();
-		for (int i = 0; i < optimalBy.size(); i++){
+		for (int i = 0; i < optimalBy.size(); i++) {
 			totalDistances.add(optimalDistancesBy.get(i) + getDistance(optimalBy.get(i).getName(), to));
 		}
-		return Collections.min(totalDistances);
+		if (totalDistances.isEmpty())
+			return -1;
+		else
+			return Collections.min(totalDistances);
 	}
 
 
