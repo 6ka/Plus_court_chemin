@@ -86,13 +86,11 @@ public class Graph {
 
 
 	public int getDistanceByNVertices(String from, String to, int intermediary) {
-		if (intermediary == 0){
-			return getDistance(from,to);
-		}
-		else if (intermediary == 1){
-			return getDistanceByOneVertex(from,to);
-		}
-		else {
+		if (intermediary == 0) {
+			return getDistance(from, to);
+		} else if (intermediary == 1) {
+			return getDistanceByOneVertex(from, to);
+		} else {
 			ArrayList<Integer> optimalDistancesBy = new ArrayList<Integer>();
 			ArrayList<Vertex> optimalBy = new ArrayList<Vertex>();
 			for (Vertex by : vertices) {
@@ -119,9 +117,9 @@ public class Graph {
 	public int getOptimalDistance(String from, String to) {
 		ArrayList<Integer> optimalDistancesByN = new ArrayList<Integer>();
 		int distance = -1;
-		for (int n = 1; n <= this.vertices.size(); n++){
+		for (int n = 1; n <= this.vertices.size(); n++) {
 			distance = getDistanceByNVertices(from, to, n);
-			if (distance != -1){
+			if (distance != -1) {
 				optimalDistancesByN.add(distance);
 			}
 		}
