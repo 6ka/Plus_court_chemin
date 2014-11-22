@@ -56,11 +56,11 @@ public class GraphTest {
 	}
 
 	@Test
-	public void findVertex(){
-		Graph graph = new Graph(paris,lyon);
+	public void findVertex() {
+		Graph graph = new Graph(paris, lyon);
 
-		Assert.assertEquals(graph.findVertexIndex("Paris"),0);
-		Assert.assertEquals(graph.findVertexIndex("Lyon"),1);
+		Assert.assertEquals(graph.findVertexIndex("Paris"), 0);
+		Assert.assertEquals(graph.findVertexIndex("Lyon"), 1);
 	}
 
 	@Test
@@ -78,41 +78,56 @@ public class GraphTest {
 	}
 
 	@Test
-	public void getDistanceForTwoVerticesByOneVertex(){
-		Graph graph = new Graph(lille,lyon,paris,reims,nancy,nantes,lemans,bordeaux,clermont,marseille,montpellier,toulouse);
-
-		Assert.assertEquals(graph.getDistanceByOneVertex("Lille","Lyon"),687);
-		Assert.assertEquals(graph.getDistanceByOneVertex("Lille","Nancy"),451);
-	}
-
-/*	@Test(expected = NoSuchElementException.class)
-	public void getDistanceForTwoVerticesByOneVertexImpossible(){
-		Graph graph = new Graph(lille,lyon,paris,reims,nancy,nantes,lemans,bordeaux,clermont,marseille,montpellier,toulouse);
-
-		graph.getDistanceByOneVertex("Nancy", "Bordeaux");
-	}*/
-
-	@Test
-	public void getDistanceForTwoVerticesByTwoVertex(){
-		Graph graph = new Graph(lille,lyon,paris,reims,nancy,nantes,lemans,bordeaux,clermont,marseille,montpellier,toulouse);
-
-		Assert.assertEquals(graph.getDistanceByTwoVertex("Lille","Marseille"),1000);
+	public void getDistanceForTwoVerticesByOneVertex() {
+		Graph graph = new Graph(lille, lyon, paris, reims, nancy, nantes, lemans, bordeaux, clermont, marseille, montpellier, toulouse);
+		Pair <Integer, String> lilleLyon= new Pair<Integer, String>(687, "Paris");
+		Pair <Integer, String> lilleNancy = new Pair<Integer, String>(451, "Reims");
+		Assert.assertEquals(graph.getDistanceByOneVertex("Lille", "Lyon"), lilleLyon);
+		Assert.assertEquals(graph.getDistanceByOneVertex("Lille", "Nancy"), lilleNancy);
 	}
 
 	@Test
-	public void getDistanceForTwoVerticesByNVertices(){
-		Graph graph = new Graph(lille,lyon,paris,reims,nancy,nantes,lemans,bordeaux,clermont,marseille,montpellier,toulouse);
+	public void getDistanceForTwoVerticesByTwoVertex() {
+		Graph graph = new Graph(lille, lyon, paris, reims, nancy, nantes, lemans, bordeaux, clermont, marseille, montpellier, toulouse);
 
-		Assert.assertEquals(graph.getDistanceByNVertices("Lille","Lyon",1),687);
-		Assert.assertEquals(graph.getDistanceByNVertices("Lille","Marseille",2),1000);
-		Assert.assertEquals(graph.getDistanceByNVertices("Lille","Toulouse",3),1116);
+		Assert.assertEquals(graph.getDistanceByTwoVertex("Lille", "Marseille"), 1000);
 	}
 
 	@Test
-	public void getOptimalDistanceForTwoVertices(){
-		Graph graph = new Graph(lille,lyon,paris,reims,nancy,nantes,lemans,bordeaux,clermont,marseille,montpellier,toulouse);
+	public void getDistanceForTwoVerticesByNVertices() {
+		Graph graph = new Graph(lille, lyon, paris, reims, nancy, nantes, lemans, bordeaux, clermont, marseille, montpellier, toulouse);
 
-		Assert.assertEquals(graph.getOptimalDistance("Lille","Lyon"),687);
+		Assert.assertEquals(graph.getDistanceByNVertices("Lille", "Lyon", 1), 687);
+		Assert.assertEquals(graph.getDistanceByNVertices("Lille", "Marseille", 2), 1000);
+		Assert.assertEquals(graph.getDistanceByNVertices("Lille", "Toulouse", 3), 1116);
+	}
+
+	@Test
+	public void getOptimalDistanceForTwoVertices() {
+		Graph graph = new Graph(lille, lyon, paris, reims, nancy, nantes, lemans, bordeaux, clermont, marseille, montpellier, toulouse);
+
+		Assert.assertEquals(graph.getOptimalDistance("Lille", "Lyon"), 687);
+	}
+
+	@Test
+	public void emptyGraph() {
+		Graph graph = new Graph();
+
+		Assert.assertEquals(graph.getOptimalDistance("Lille", "Lyon"), -1);
+	}
+
+	@Test
+	public void pathDoesNotExist() {
+		Graph graph = new Graph(lille, lyon, paris, reims, nancy, nantes, lemans, bordeaux, clermont, marseille, montpellier, toulouse);
+
+		Assert.assertEquals(graph.getOptimalDistance("Toulouse", "Lille"), -1);
+	}
+
+	@Test
+	public void cityDoesNotExist() {
+		Graph graph = new Graph(lille, lyon, paris, reims, nancy, nantes, lemans, bordeaux, clermont, marseille, montpellier, toulouse);
+
+		Assert.assertEquals(graph.getOptimalDistance("Poney", "Lille"), -1);
 	}
 
 }
