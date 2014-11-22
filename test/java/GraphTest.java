@@ -2,7 +2,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.NoSuchElementException;
+import java.util.ArrayList;
+
 
 public class GraphTest {
 	private Vertex lille = new Vertex("Lille");
@@ -97,9 +98,25 @@ public class GraphTest {
 	public void getDistanceForTwoVerticesByNVertices() {
 		Graph graph = new Graph(lille, lyon, paris, reims, nancy, nantes, lemans, bordeaux, clermont, marseille, montpellier, toulouse);
 
-		Assert.assertEquals(graph.getDistanceByNVertices("Lille", "Lyon", 1), 687);
-		Assert.assertEquals(graph.getDistanceByNVertices("Lille", "Marseille", 2), 1000);
-		Assert.assertEquals(graph.getDistanceByNVertices("Lille", "Toulouse", 3), 1116);
+		Pair <Integer, ArrayList<String>> lilleLyon =graph.getDistanceByNVertices("Lille", "Lyon", 1);
+		Pair <Integer, ArrayList<String>> lilleMarseille = graph.getDistanceByNVertices("Lille", "Marseille", 2);
+		Pair <Integer, ArrayList<String>> lilleToulouse =graph.getDistanceByNVertices("Lille", "Toulouse", 3);
+		ArrayList<String> lyon = new ArrayList<String>();
+		lyon.add("Paris");
+		ArrayList<String> marseille = new ArrayList<String>();
+		marseille.add("Paris");
+		marseille.add(("Lyon"));
+		ArrayList<String> toulouse = new ArrayList<String>();
+		toulouse.add("Paris");
+		toulouse.add("Le Mans");
+		toulouse.add("Bordeaux");
+
+		Assert.assertEquals( lilleLyon.getDistance() , new Integer(687));
+		Assert.assertEquals(lilleMarseille.getDistance(), new Integer(1000));
+		Assert.assertEquals(lilleToulouse.getDistance(), new Integer(1116));
+		Assert.assertEquals(lilleLyon.getName(), lyon);
+		Assert.assertEquals(lilleMarseille.getName(), marseille);
+		Assert.assertEquals(lilleToulouse.getName(), toulouse);
 	}
 
 	@Test
@@ -107,6 +124,26 @@ public class GraphTest {
 		Graph graph = new Graph(lille, lyon, paris, reims, nancy, nantes, lemans, bordeaux, clermont, marseille, montpellier, toulouse);
 
 		Assert.assertEquals(graph.getOptimalDistance("Lille", "Lyon"), 687);
+
+		Pair <Integer, ArrayList<String>> lilleLyon =graph.getOptimalDistance("Lille", "Lyon");
+		Pair <Integer, ArrayList<String>> lilleMarseille = graph.getOptimalDistance("Lille", "Marseille");
+		Pair <Integer, ArrayList<String>> lilleToulouse =graph.getOptimalDistance("Lille", "Toulouse");
+		ArrayList<String> lyon = new ArrayList<String>();
+		lyon.add("Paris");
+		ArrayList<String> marseille = new ArrayList<String>();
+		marseille.add("Paris");
+		marseille.add(("Lyon"));
+		ArrayList<String> toulouse = new ArrayList<String>();
+		toulouse.add("Paris");
+		toulouse.add("Le Mans");
+		toulouse.add("Bordeaux");
+
+		Assert.assertEquals( lilleLyon.getDistance() , new Integer(687));
+		Assert.assertEquals(lilleMarseille.getDistance(), new Integer(1000));
+		Assert.assertEquals(lilleToulouse.getDistance(), new Integer(1116));
+		Assert.assertEquals(lilleLyon.getName(), lyon);
+		Assert.assertEquals(lilleMarseille.getName(), marseille);
+		Assert.assertEquals(lilleToulouse.getName(), toulouse);
 	}
 
 	@Test
