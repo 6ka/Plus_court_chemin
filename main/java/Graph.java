@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,13 +19,16 @@ public class Graph {
 			}
 			count++;
 		}
-		return count - 1;
+		if (found)
+			return count - 1;
+		else
+			return -1;
 	}
 
 	public int getDistance(String from, String to) {
 		int distance = -1;
 		int vertexFromIndex = findVertexIndex(from);
-		if (vertexFromIndex != vertices.size()) {
+		if (vertexFromIndex != vertices.size() && vertexFromIndex != -1) {
 			Vertex fromVertex = vertices.get(vertexFromIndex);
 			for (Edge edge : fromVertex.getEdges()) {
 				if (edge.getTarget().getName().equals(to)) {
@@ -49,8 +51,11 @@ public class Graph {
 	public Pair<Integer, String> getDistanceByOneVertex(String from, String to) {
 		ArrayList<Integer> distances = new ArrayList<Integer>();
 		int vertexFromIndex = findVertexIndex(from);
+		if (vertexFromIndex == -1){
+			return new Pair<Integer, String>(-1, "");
+		}
 		Vertex fromVertex = vertices.get(vertexFromIndex);
-		ArrayList<Vertex> possibleBy = new ArrayList<Vertex>();
+		ArrayList<Vertex> possibleBy = new ArrayList<Vertex>(); //list of possible vertices to pass by
 		for (Edge edge : fromVertex.getEdges()) {
 			int distanceFromBy = getDistanceByVertex(from, to, edge.getTarget().getName());
 			if (distanceFromBy != -1) {
@@ -94,9 +99,9 @@ public class Graph {
 
 	public Pair<Integer, ArrayList<String>> getDistanceByNVertices(String from, String to, int intermediary) {
 		ArrayList<String> names = new ArrayList<String>();
-		ArrayList<String> totalPaths = new ArrayList<String>();
+		ArrayList<String> totalPaths;
 		if (intermediary == 0) {
-			return new Pair(getDistance(from, to), "");
+			return new Pair<Integer, ArrayList<String>>(getDistance(from, to), names);
 		} else if (intermediary == 1) {
 			Pair<Integer, String> distanceByOne = getDistanceByOneVertex(from, to);
 			names.add(distanceByOne.getName());
@@ -114,7 +119,6 @@ public class Graph {
 						optimalDistancesBy.add(distanceFromBy);
 						optimalBy.add(by);
 					}
-//					totalPaths = distanceNamesByNMinus1.getName();
 				}
 			}
 			ArrayList<Integer> totalDistances = new ArrayList<Integer>();
@@ -149,7 +153,7 @@ public class Graph {
 			}
 		}
 		if (optimalDistancesByN.isEmpty())
-			return new Pair(-1,"");
+			return new Pair<Integer, ArrayList<String>>(-1,new ArrayList<String>());
 		else {
 			int distanceMin = Collections.min(optimalDistancesByN);
 			int distanceArgmin = optimalDistancesByN.indexOf(distanceMin);
