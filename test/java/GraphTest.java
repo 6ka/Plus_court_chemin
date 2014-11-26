@@ -123,8 +123,6 @@ public class GraphTest {
 	public void optimalDistanceAndPath() {
 		Graph graph = new Graph(lille, lyon, paris, reims, nancy, nantes, lemans, bordeaux, clermont, marseille, montpellier, toulouse);
 
-//		Assert.assertEquals(graph.getOptimalDistance("Lille", "Lyon"), 687);
-
 		Pair <Integer, ArrayList<String>> lilleLyon =graph.getOptimalDistance("Lille", "Lyon");
 		Pair <Integer, ArrayList<String>> lilleMarseille = graph.getOptimalDistance("Lille", "Marseille");
 		Pair <Integer, ArrayList<String>> lilleToulouse =graph.getOptimalDistance("Lille", "Toulouse");
@@ -150,21 +148,24 @@ public class GraphTest {
 	public void emptyGraph() {
 		Graph graph = new Graph();
 
-		Assert.assertEquals(graph.getOptimalDistance("Lille", "Lyon").getDistance(), new Integer(-1));
+		Pair<Integer, ArrayList<String>> lilleLyon = graph.getOptimalDistance("Lille", "Lyon");
+		Assert.assertEquals(lilleLyon.getDistance(), new Integer(-1));
 	}
 
 	@Test
 	public void pathDoesNotExist() {
 		Graph graph = new Graph(lille, lyon, paris, reims, nancy, nantes, lemans, bordeaux, clermont, marseille, montpellier, toulouse);
-
-		Assert.assertEquals(graph.getOptimalDistance("Toulouse", "Lille").getDistance(), new Integer(-1));
+		Pair <Integer, ArrayList<String>> toulouseLille = graph.getOptimalDistance("Toulouse", "Lille");
+		Assert.assertEquals(toulouseLille.getDistance(), new Integer(-1));
+		Assert.assertEquals(toulouseLille.getName(), new ArrayList<String>());
 	}
 
 	@Test
 	public void cityDoesNotExist() {
 		Graph graph = new Graph(lille, lyon, paris, reims, nancy, nantes, lemans, bordeaux, clermont, marseille, montpellier, toulouse);
 
-		Assert.assertEquals(graph.getOptimalDistance("Poney", "Lille").getDistance(), new Integer(-1));
+		Pair <Integer, ArrayList<String>> poneyLille = graph.getOptimalDistance("Poney", "Lille");
+		Assert.assertEquals(poneyLille.getDistance(), new Integer(-1));
 	}
 
 }
