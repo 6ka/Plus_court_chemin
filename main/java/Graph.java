@@ -4,6 +4,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class Graph {
+
+	//Every impossible path will be considered as a path of length -1
+
 	private List<Vertex> vertices = new ArrayList<Vertex>();
 
 	public Graph(Vertex... vertices) {
@@ -51,7 +54,7 @@ public class Graph {
 	public Pair<Integer, String> getDistanceByOneVertex(String from, String to) {
 		ArrayList<Integer> distances = new ArrayList<Integer>();
 		int vertexFromIndex = findVertexIndex(from);
-		if (vertexFromIndex == -1){
+		if (vertexFromIndex == -1) {
 			return new Pair<Integer, String>(-1, "");
 		}
 		Vertex fromVertex = vertices.get(vertexFromIndex);
@@ -73,7 +76,7 @@ public class Graph {
 	}
 
 
-	public int getDistanceByTwoVertex(String from, String to) {
+	public int getDistanceByTwoVertex(String from, String to) { //intermediary function used to understand the induction
 		ArrayList<Integer> optimalDistancesBy = new ArrayList<Integer>();
 		ArrayList<Vertex> optimalBy = new ArrayList<Vertex>();
 		for (Vertex by : vertices) {
@@ -96,8 +99,8 @@ public class Graph {
 			return Collections.min(totalDistances);
 	}
 
-
-	public Pair<Integer, ArrayList<String>> getDistanceByNVertices(String from, String to, int intermediary) {
+	//Gets the optimal path from a city to another with a fixed number of intermediary cities
+	public Pair<Integer, ArrayList<String>> getDistanceByNVertices(String from, String to, int intermediary) { //based on the idea that an optimal path with n transitions is an optimal path to the second to last city with n-1 transitions
 		ArrayList<String> names = new ArrayList<String>();
 		ArrayList<String> totalPaths;
 		if (intermediary == 0) {
@@ -108,10 +111,10 @@ public class Graph {
 			return new Pair<Integer, ArrayList<String>>(distanceByOne.getDistance(), names);
 		} else {
 			ArrayList<Integer> optimalDistancesBy = new ArrayList<Integer>();
-			ArrayList<Vertex> optimalBy = new ArrayList<Vertex>();
+			ArrayList<Vertex> optimalBy = new ArrayList<Vertex>(); //possible cities to pass by as an n-1th
 			ArrayList<ArrayList<String>> optimalPathsBy = new ArrayList<ArrayList<String>>();
 			for (Vertex by : vertices) {
-				if (getDistance(by.getName(), to) != -1) {
+				if (getDistance(by.getName(), to) != -1) { //if it is possible to go directly from the n-1th city to the last
 					Pair<Integer, ArrayList<String>> distanceNamesByNMinus1 = getDistanceByNVertices(from, by.getName(), intermediary - 1);
 					int distanceFromBy = distanceNamesByNMinus1.getDistance();
 					if (distanceFromBy != -1) {
@@ -132,7 +135,7 @@ public class Graph {
 			else {
 				int distanceMin = Collections.min(totalDistances);
 				int distanceArgmin = totalDistances.indexOf(distanceMin);
-				totalPaths =optimalPathsBy.get(distanceArgmin);
+				totalPaths = optimalPathsBy.get(distanceArgmin);
 				totalPaths.add(lastCity.get(distanceArgmin));
 				return new Pair<Integer, ArrayList<String>>(Collections.min(totalDistances), totalPaths);
 			}
@@ -140,6 +143,7 @@ public class Graph {
 	}
 
 
+	//Gets the optimal path by testing all the possible numbers of intermediaries
 	public Pair<Integer, ArrayList<String>> getOptimalDistance(String from, String to) {
 		ArrayList<Integer> optimalDistancesByN = new ArrayList<Integer>();
 		ArrayList<ArrayList<String>> optimalPaths = new ArrayList<ArrayList<String>>();
@@ -153,7 +157,7 @@ public class Graph {
 			}
 		}
 		if (optimalDistancesByN.isEmpty())
-			return new Pair<Integer, ArrayList<String>>(-1,new ArrayList<String>());
+			return new Pair<Integer, ArrayList<String>>(-1, new ArrayList<String>());
 		else {
 			int distanceMin = Collections.min(optimalDistancesByN);
 			int distanceArgmin = optimalDistancesByN.indexOf(distanceMin);
